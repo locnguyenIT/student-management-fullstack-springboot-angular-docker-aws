@@ -63,10 +63,9 @@ Start with MySQL container first, then run App container later.
 
 Stop App container first, then stop MySQL container later.
 
-#### The fourth way (Pull the image of Application and run docker container)
-Make sure you are running mysql-db container.
+#### The fourth way (use Docker-compose to run container)
+Make sure you created empty data folder in root project.
 
-Finally, run "docker run --name web-fullstack --network db -e MYSQL_HOST=mysql-db -d -p 8080:8080 ntloc/web-app-fullstack-springboot-angular" which ntloc/web-app-fullstack-springboot-angular is image of application on docker hub.
+Open terminal at project and follow this command "docker-compose -f docker-compose.yml up" to run MySQL containner and App container then open localhost:8080 on your browser. If you remove docker-compose, follow this command "docker-compose -f docker-compose.yml down".
 
 Good luck !!!
-
