@@ -32,7 +32,6 @@ I used IntelliJ IDEA for backend and Visual Studio Code for frontend. I have Doc
 - Go to pom.xml file -> Maven -> Reload project
 - Open the project and follow path "\src\main\resources\application.properties" to configuation application.properties to connect database. Make sure you created database "student" and change username and password with your MySQL account
 - Go to Maven at the top-right corner and run command "mvn clean package" to create jar file
-- Open DbConfiguration.java and delete or comment all line, keep only the class name
 
 #### The first way(Different localhost):
 Click DemoApplication and Run. After the program has finished running. Open your browser "http://localhost:8080/api/spring-boot/student"  to see API of backend.
