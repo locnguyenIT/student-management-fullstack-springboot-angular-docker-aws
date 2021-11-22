@@ -32,5 +32,5 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
-    - name: Maven Clean Package
-      run: mvn --no-transfer-progress clean package -P build-frontend
+      - name: Maven Clean Package
+        run: mvn --no-transfer-progress clean package -P build-frontend
