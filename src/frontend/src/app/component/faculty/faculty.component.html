@@ -1,0 +1,112 @@
+<div class="container" id="main-container">
+  <form class="forn-search">
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+    <input class="form-search" type="search" (ngModelChange)="searchFaculty(input.value)" #input="ngModel" ngModel
+    name="input" placeholder="Search..." aria-label="Search">
+    <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addFacultyModal">Add</button>
+  </form>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- repeat <tr> tag with *ngFor loop to get all faculty -->
+          <tr class ="table-tr-hover" *ngFor ="let faculty of listFaculty">
+            <!-- {{object?.attribute}}  "?" make sure object exist before it tries to accsess any attribute on that object -->
+            <td>{{faculty?.id}}</td>
+            <td>{{faculty?.name}}</td>
+            <td>
+              <!-- Delete Modal -->
+              <!-- When user click on Delete button. data faculty will pass into getFaculty function and open Delete modal -->
+              <!-- data-bs-target attribute must equal to id attribute in modal-->
+              <button  (click) = "getFaculty(faculty)" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteFacultyModal">Delete</button>
+              <!-- Edit Modal -->
+              <!-- When user click on Edit button. data faculty will pass into getFaculty and open Edit modal -->
+              <button  (click) = "getFaculty(faculty)" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editFacultyModal">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addFacultyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Faculty</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- use "ngForm" to perform the form in angular meaned is #addForm  -->
+            <!-- ngModel with name attribute put data into addForm to perform JSON data request into backend -->
+            <!-- When Save changes button is click, call (ngSubmit) = function addFaculty(addFrom) -->
+              <form #addForm="ngForm" (ngSubmit) = "addFaculty(addForm)">
+                  <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" id="add-faculty-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <!-- Block form if form have no data -->
+                      <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+                  </div>
+              </form>
+          </div>
+        </div>
+      </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteFacultyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Faculty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Open modal to get data faculty just clicked button above and pass {{deleteFaculty?.name}} (Delete)-->
+        <p>Are you sure want to delete {{faculty?.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <!-- Open modal to get data faculty just clicked button above and pass {{id}} into function onDeleteFaculty({{id}}) -->
+        <button (click)=  "onDeleteFaculty(faculty?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editFacultyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Faculty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" >
+          <div class="form-group">
+              <label for="name">Name</label>
+               <!-- use "ngForm" to perform the form in angular meaned is #updateForm  -->
+              <!-- ngModel {{faculty.attribute}} with name attribute put data into #updateForm to perform data of faculty -->
+              <input type="text" ngModel={{faculty?.name}} name ="name" class="form-control" id="name" placeholder="Name" required>
+          </div>
+          <!-- hidden button with id of faculty-->
+          <input type="hidden" ngModel = {{faculty?.id}} name ="id" class="form-control" id="id">
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- Form get all value and passed into function UpdateFaculty(updateform) -->
+              <button (click) = "onUpdateFaculty(updateForm.value)"  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

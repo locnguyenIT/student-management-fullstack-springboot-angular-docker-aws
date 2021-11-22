@@ -1,0 +1,43 @@
+header.masthead {
+  background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("src/bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  /* height: 92.5%; */
+}
+#nav-router{
+  display: none;
+}
+hr.divider {
+  height: 0.2rem;
+  max-width: 3.25rem;
+  margin: 1.5rem auto;
+  background-color: #f4623a;
+  opacity: 1;
+}
+.btn-xl {
+  padding: 1.25rem 2.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 10rem;
+}
+.btn-started {
+  color:white;
+  background-color: #f4623a;
+  border-color: #f4623a;
+}
+.btn-started:hover {
+  color: white;
+  background-color: #cf5331;
+  border-color: #c34e2e;
+}
+.btn-started.active {
+  color: white;
+  background-color: #c34e2e;
+  border-color: #b74a2c;
+}
+
+

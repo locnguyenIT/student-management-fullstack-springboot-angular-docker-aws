@@ -1,0 +1,141 @@
+<div class="container" id="main-container">
+  <form class="forn-search">
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+    <input class="form-search" type="search" (ngModelChange)="searchResult(input.value)" #input="ngModel" ngModel
+           name="input" placeholder="Search..." aria-label="Search">
+    <!-- When user click on Add new button will open Add modal -->
+    <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addStudentModal">Add</button>
+  </form>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Student</th>
+            <th scope="col">Course</th>
+            <th scope="col">Grade</th>
+            <!-- <th scope="col">Faculty</th> -->
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- repeat <tr> tag with *ngFor loop to get all result -->
+          <tr class ="table-tr-hover" *ngFor="let result of listResult">
+            <td>{{result?.student?.name}}</td>
+            <td>{{result?.course?.name}}</td>
+            <td>{{result?.grade}}</td>
+            <td>
+              <!-- Delete Modal -->
+              <!-- When user click on Delete button. data result will pass into getResult function and open Delete modal -->
+              <!-- data-bs-target attribute must equal to id attribute in modal-->
+              <button  (click)="getResult(result)" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteStudentModal">Delete</button>
+              <!-- Edit Modal -->
+              <!-- When user click on Edit button. data result will pass into getResult function and open Edit modal -->
+              <button  (click)="getResult(result)"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editStudentModal">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- use "ngForm" to perform the form in angular meaned is #addForm  -->
+            <!-- ngModel with name attribute put data into addForm to perform JSON data request into backend -->
+            <!-- When Save changes button is click, call (ngSubmit) = function Addresult(addFrom) -->
+              <form #addForm = "ngForm" (ngSubmit)="addResult(addForm)">
+                <div class="form-group">
+                  <label for="faculty">Student</label>
+                  <select class="form-select" ngModel name ="studentId" aria-label="Default select example" required>
+                    <option  value ="" selected disabled hidden>Choose a student</option>
+                    <option  *ngFor="let student of listStudent" [ngValue]="student?.id">{{student?.name}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="faculty">Course</label>
+                  <select class="form-select" ngModel name ="courseId" aria-label="Default select example" required>
+                    <option  value ="" selected disabled hidden>Choose a course</option>
+                    <option  *ngFor="let course of listCourse" [ngValue]="course?.id">{{course?.name}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="faculty">Grade</label>
+                  <select class="form-select" ngModel name ="grade" aria-label="Default select example" required>
+                    <option  value ="" selected disabled hidden>Choose a grade</option>
+                    <option  *ngFor="let grade of listGrade" [ngValue]="grade">{{grade}}</option>
+                  </select>
+                </div>
+                  <div class="modal-footer">
+                      <button type="button" id="add-result-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button [disabled]="addForm.invalid" type="submit"  class="btn btn-primary" >Save changes</button>
+                  </div>
+              </form>
+          </div>
+        </div>
+      </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Open modal to get data student just clicked button above and pass {{name}} (Delete)-->
+        <p>Are you sure want to delete result of {{result?.student?.name}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <!-- Open modal to get data student just clicked button above and pass {{id}} into function onDeleteStudent({{id}}) -->
+        <button (click)="deleteResult(result?.student?.id,result?.course?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <div class="form-group">
+              <label for="student">Student</label>
+              <input type="text"  ngModel={{result?.student?.name}} name ="nameStudent" class="form-control" id="studentId"  disabled>
+              <input type="hidden" ngModel={{result?.student?.id}}  name="studentId" class="form-control" id="id">
+          </div>
+          <div class="form-group">
+            <label for="course">Course</label>
+            <input type="text"  ngModel={{result?.course?.name}} name ="nameCourse" class="form-control" id="studentId" disabled>
+            <input type="hidden" ngModel={{result?.course?.id}}  name="courseId" class="form-control" id="id">
+        </div>
+          <div class="form-group">
+            <label for="faculty">Grade</label>
+            <select class="form-select" ngModel name ="grade" aria-label="Default select example" required>
+              <option  value ="" selected disabled hidden>{{result?.grade}}</option>
+              <option  *ngFor="let grade of listGrade" [ngValue]="grade">{{grade}}</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- Form get all ngModel and passed into function onUpdateStudent(updateform) -->
+              <button  (click)="updateResult(updateForm)" type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

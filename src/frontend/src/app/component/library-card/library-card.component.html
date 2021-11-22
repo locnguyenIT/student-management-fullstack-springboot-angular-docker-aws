@@ -1,0 +1,121 @@
+<div class="container" id="main-container">
+  <form class="forn-search">
+    <input class="form-search" type="search" (ngModelChange)="searchLiraryCard(input.value)" #input="ngModel"
+     ngModel name ="input" placeholder="Search..." aria-label="Search">
+    <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addStudentModal">Add</button>
+  </form>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Student</th>
+            <th scope="col">Card Number</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- repeat <tr> tag with *ngFor loop to get all student -->
+          <tr class ="table-tr-hover" *ngFor ="let libraryCard of listLibraryCard">
+            <td>{{libraryCard.id}}</td>
+            <td>{{libraryCard.student.name}}</td>
+            <td>{{libraryCard.card_number}}</td>
+            <td>
+              <!-- Delete Modal -->
+              <!-- When user click on Delete button. data student will pass into getInfoStudent in function getStudent and open Delete modal -->
+              <!-- data-bs-target attribute must equal to id attribute in modal-->
+              <button (click)="getLibraryCard(libraryCard)"  class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteStudentModal">Delete</button>
+              <!-- Edit Modal -->
+              <!-- When user click on Edit button. data student will pass into getInfoStudent in function getStudent and open Edit modal -->
+              <button (click)="getLibraryCard(libraryCard)"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editStudentModal">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Faculty</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- use "ngForm" to perform the form in angular meaned is #addForm  -->
+            <!-- ngModel with name attribute put data into addForm to perform JSON data request into backend -->
+            <!-- When Save changes button is click, call (ngSubmit) = function onAddStudent(addFrom) -->
+              <form #addForm = "ngForm" (ngSubmit)="addLibraryCard(addForm)">
+                <div class="form-group">
+                  <label for="student">Student</label>
+                  <select class="form-select" ngModel name ="studentId" aria-label="Default select example" required>
+                    <option  value ="" selected disabled hidden>Choose a sutdent</option>
+                    <option  *ngFor="let student of listStudent" [ngValue] = "student?.id">{{student?.name}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="card-number">Card Number</label>
+                  <input type="text" ngModel name="card_number" class="form-control" id="name" placeholder="Card Number" required>
+                </div>
+                  <div class="modal-footer">
+                      <button type="button" id="add-library-card-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+                  </div>
+              </form>
+          </div>
+        </div>
+      </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Open modal to get data student just clicked button above and pass {{name}} (Delete)-->
+        <p>Are you sure want to delete library card of {{libraryCard?.student?.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <!-- Open modal to get data student just clicked button above and pass {{id}} into function onDeleteStudent({{id}}) -->
+        <button  (click)="deleteLibraryCard(libraryCard?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" >
+          <!-- hidden button with id of libraryCard-->
+          <input type="hidden" ngModel={{libraryCard?.id}} name ="id" class="form-control" id="id">
+          <div class="form-group">
+            <label for="student">Student</label>
+            <input type="text"  ngModel={{libraryCard?.student?.name}} name ="studentName" class="form-control" id="studentId" disabled>
+          </div>
+          <div class="form-group">
+            <label for="card-number">Card Number</label>
+            <input type="text" ngModel={{libraryCard?.card_number}} name="card_number" class="form-control" id="cardNumber" placeholder="Card Number" required>
+          </div>
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- Form get all value and passed into function onUpdateStudent(updateform) -->
+              <button (click)="updateLibraryCard(updateForm)"  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

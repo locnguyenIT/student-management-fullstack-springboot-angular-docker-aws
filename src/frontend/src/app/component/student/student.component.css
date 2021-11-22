@@ -1,0 +1,26 @@
+.table-tr-hover:hover{
+  background-color: Gainsboro;
+}
+.btn-outline-primary{
+  margin-left: 15px;
+}
+.btn-outline-success{
+  float: right;
+  margin: 20px 0 15px 10px;
+  border-radius: 5px;
+}
+.form-search{
+  float: left;
+  margin: 20px 5px 15px 0;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid silver;
+}
+.form-search:focus{
+  border: 3px solid skyblue;
+}
+
+
+
