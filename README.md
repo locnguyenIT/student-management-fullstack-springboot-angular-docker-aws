@@ -65,6 +65,6 @@ Stop App container first, then stop MySQL container later.
 #### The fourth way (use Docker-compose to run container)
 Make sure you created empty data folder in root project.
 
-Open terminal at project and follow this command "docker-compose -f docker-compose.yml up" to run MySQL containner and App container then open localhost:8080 on your browser. If you remove docker-compose, follow this command "docker-compose -f docker-compose.yml down".
+Open terminal at project and follow this command "docker-compose -f compose.yml up" to run MySQL containner and App container then open localhost:8080 on your browser. If you remove docker-compose, follow this command "docker-compose -f compose.yml down".
 
 Good luck !!!

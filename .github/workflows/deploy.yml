@@ -10,7 +10,11 @@ on:
 env:
   MYSQL_DATABASE: student
   MYSQL_ROOT_PASSWORD: password
-
+  #AWS & Elastic Beanstalk
+  AWS_REGION: ap-southeast-1
+  EB_ENVIRONMENT_NAME: Studentmanagementfullstack-env
+  EB_APPLICATION_NAME: Student Management Fullstack
+  EB_DEPLOYMENT_PACKAGE: aws-elasticbeanstalk/docker-compose.yml
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -47,5 +51,35 @@ jobs:
             -P build-frontend
             -P jib-push-image-to-dockerhub
             -Dapp.image.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}
+
+      - name: Update and commit app version in docker-compose.yaml
+        run: |
+          IMAGE_NUMBER=${{steps.image-number.outputs.IMAGE_NUMBER}}
+          echo -e "Current aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
+          sed -i -E 's_(ntloc/web-app-fullstack-springboot-angular:)([^"]*)_\1'${IMAGE_NUMBER}'_' aws-elasticbeanstalk/docker-compose.yml
+          echo -e "Current aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add aws-elasticbeanstalk/docker-compose.yml
+          git commit -m "new app version: ${IMAGE_NUMBER}"
+          git push
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ env.AWS_REGION }}
+          environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
+          application_name: ${{ env.EB_APPLICATION_NAME }}
+          deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
+          version_label: ${{ steps.build-number.outputs.IMAGE_NUMBER }}
+          version_description: Version ${{steps.build-number.outputs.IMAGE_NUMBER}} deployed via github actions ${{ github.sha }}
+          wait_for_deployment: 60
+
+
+
+
+
+
 
 
