@@ -12,8 +12,8 @@ env:
   MYSQL_ROOT_PASSWORD: password
   #AWS & Elastic Beanstalk
   AWS_REGION: ap-southeast-1
-  EB_ENVIRONMENT_NAME: Studentmanagementfullstack-env
-  EB_APPLICATION_NAME: Student Management Fullstack
+  EB_ENVIRONMENT_NAME: Webappstudentmanagementfullstack-env
+  EB_APPLICATION_NAME: WebApp Student Management Fullstack
   EB_DEPLOYMENT_PACKAGE: aws-elasticbeanstalk/docker-compose.yml
 jobs:
   deploy:
