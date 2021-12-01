@@ -12,7 +12,7 @@ env:
   MYSQL_ROOT_PASSWORD: password
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     services:
       mysql-db:
@@ -31,5 +31,6 @@ jobs:
           java-version: '15'
           distribution: 'adopt'
           cache: maven
-    - name: Maven Clean Package
-      run: mvn --no-transfer-progress clean package
+
+      - name: Maven Clean Package
+        run: mvn --no-transfer-progress clean package -P build-frontend
