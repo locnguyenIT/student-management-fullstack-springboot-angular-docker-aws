@@ -10,7 +10,7 @@ import { Student } from '../interface/student';
 })
 export class StudentService {
 
-  private backendURL = 'http://localhost:8080/api/spring-boot'; //URL to connect to backend;
+  private backendURL = 'http://webappstudentmanagementfullstack-env.eba-xu8cmuqq.ap-southeast-1.elasticbeanstalk.com/api/spring-boot'; //URL to connect to backend;
 
   constructor(private http: HttpClient) { }
 
