@@ -9,7 +9,7 @@ import { LibraryCard } from '../interface/library-card';
 })
 export class LibraryCardService {
 
-  private backendURL = 'http://webappstudentmanagementfullstack-env.eba-xu8cmuqq.ap-southeast-1.elasticbeanstalk.com/api/spring-boot'; //URL to connect to backend;
+  private backendURL = 'http://web-app-fullstack.ap-southeast-1.elasticbeanstalk.com/api/spring-boot'; //URL to connect to backend;
 
   constructor(private http: HttpClient) { }
 
