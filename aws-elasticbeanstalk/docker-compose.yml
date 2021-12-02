@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web-app:
-    image: "ntloc/web-app-fullstack-springboot-angular:2.12.2021.14.16.16"
+    image: "ntloc/web-app-fullstack-springboot-angular:2.12.2021.14.32.40"
     ports:
       - "80:8080"
     restart: "always"
