@@ -37,7 +37,7 @@ public class CourseService {
         Optional<Course> courseByName = courseRepository.findCourseByName(course.getName());
         if(courseByName.isPresent())
         {
-            throw new BadRequestException("Name already exist in database");
+            throw new BadRequestException("Name  already exist in database");
         }
         boolean exists = facultyRepository.existsById(facultyId);
         if(!exists)
