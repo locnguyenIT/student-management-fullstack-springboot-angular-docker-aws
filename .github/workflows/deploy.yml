@@ -32,11 +32,10 @@ jobs:
 #          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Maven Clean Package and Push Image to Docker Hub
-        run: mvn clean package
-          -P build-frontend
-          -P jib-push-image-to-dockerhub
-          -Dimage.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}
-          -DskipTests
+        run: mvn --no-transfer-progress clean package
+            -P build-frontend
+            -P jib-push-image-to-dockerhub
+            -Dimage.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}s
 
       - name: Update and commit app version in docker-compose.yaml
         run: |
