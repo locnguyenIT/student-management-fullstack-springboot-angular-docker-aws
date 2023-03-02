@@ -17,7 +17,7 @@
 		<java.version>15</java.version>
 		<app.image.name>web-app-fullstack-springboot-angular</app.image.name>
 		<timestamp>${maven.build.timestamp}</timestamp>
-		<maven.build.timestamp.format>yyyy.MM.dd.HH.mm.ss</maven.build.timestamp.format>
+		<maven.build.timestamp.format>yyyy.MM.dd.HH.mm</maven.build.timestamp.format>
 		<image.tag/>
 	</properties>
 	<dependencies>
