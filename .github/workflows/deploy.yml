@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate image number
         id: image-number
-        run: echo "::set-output name=IMAGE_NUMBER::$(Get-Date -UFormat "%Y.%m.%d")"
+        run: echo "::set-output name=IMAGE_NUMBER::$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
