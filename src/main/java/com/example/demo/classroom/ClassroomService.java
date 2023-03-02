@@ -36,7 +36,7 @@ public class ClassroomService {
         Optional<Classroom> classroomByName = classroomRepository.findClassroomByName(classroom.getName());
         if(classroomByName.isPresent()) //if name of classroom is present in database
         {
-            throw new BadRequestException("Name already exist in database");
+            throw new BadRequestException("Name already exist in database.");
         }
         boolean exists = facultyRepository.existsById(facultyId);
         if(!exists)

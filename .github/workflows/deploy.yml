@@ -75,11 +75,3 @@ jobs:
           version_label: ${{ steps.image-number.outputs.IMAGE_NUMBER }}
           version_description: Version ${{steps.build-number.outputs.IMAGE_NUMBER}} deployed via github actions ${{ github.sha }}
           wait_for_deployment: 60
-
-
-
-
-
-
-
-
