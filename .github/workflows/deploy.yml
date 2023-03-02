@@ -32,7 +32,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Maven Clean Package and Push Image to Docker Hub
-        run: mvn clean package -P build-frontend -DskipTests
+        run: |
+          BUILD_NUMBER=${{steps.image-number.outputs.BUILD_NUMBER}}
+          mvn clean package -P build-frontend -DskipTests
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
