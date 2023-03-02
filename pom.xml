@@ -16,7 +16,8 @@
 	<properties>
 		<java.version>15</java.version>
 		<app.image.name>web-app-fullstack-springboot-angular</app.image.name>
-		<buildNumber>${maven.build.timestamp}</buildNumber>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy.MM.dd.HH.mm.ss</maven.build.timestamp.format>
 		<image.tag/>
 	</properties>
 	<dependencies>
@@ -169,7 +170,7 @@
 								<phase>package</phase>
 								<configuration>
 									<to>
-										<image>docker.io/ntloc/${app.image.name}:${buildNumber}</image>
+										<image>docker.io/ntloc/${app.image.name}:${maven.build.timestamp.format}</image>
 									</to>
 								</configuration>
 								<goals>
