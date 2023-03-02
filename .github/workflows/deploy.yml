@@ -26,7 +26,7 @@ jobs:
 #        run:  echo "BUILD_NUMBER=$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S").ToString()" >> $GITHUB_OUTPUT
       - name: Generate build number
         id: build-number
-        run: echo "::set-output name=BUILD_NUMBER::$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S").ToString()"
+        run: echo "::set-output name=BUILD_NUMBER::$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")"
 
       - name: Get build number
         run: echo "The selected number is ${{ steps.build-number.outputs.BUILD_NUMBER }}"
