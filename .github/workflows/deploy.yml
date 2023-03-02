@@ -21,12 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Generate build number
-        id: build-number
-        run:  echo "BUILD_NUMBER=$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")" >> $GITHUB_OUTPUT
 #      - name: Generate build number
 #        id: build-number
-#        run:  echo "BUILD_NUMBER=$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")" >> $GITHUB_OUTPUT
+#        run:  echo "BUILD_NUMBER=$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S").ToString()" >> $GITHUB_OUTPUT
+      - name: Generate build number
+        id: build-number
+        run: echo "::set-output name=BUILD_NUMBER::$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")"
 
       - name: Get build number
         run: echo "The build number is ${{ steps.build-number.outputs.BUILD_NUMBER }}"
