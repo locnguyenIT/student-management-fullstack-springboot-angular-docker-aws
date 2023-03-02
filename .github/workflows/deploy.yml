@@ -32,9 +32,7 @@ jobs:
 #          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Maven Clean Package and Push Image to Docker Hub
-        run: |
-          IMAGE_NUMBER=${{steps.image-number.outputs.IMAGE_NUMBER}}
-          mvn clean package
+        run: mvn clean package
           -P build-frontend
           -P jib-push-image-to-dockerhub
           -Dapp.image.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}
