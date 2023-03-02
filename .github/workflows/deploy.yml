@@ -21,11 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Generate image number
-        id: image-number
-        run: |
-          echo "::set-output name=IMAGE_NUMBER::$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")"
-          docker ps
+      - name: Generate build number
+        id: build-number
+        run: echo "BUILD_NUMBER=$(Get-Date -UFormat "%Y.%m.%d.%H.%M.%S")" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -45,18 +43,17 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-app-fullstack-springboot-angular:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}
 
       - name: Update and commit app version in docker-compose.yaml
         run: |
-          IMAGE_NUMBER=${{steps.image-number.outputs.IMAGE_NUMBER}}
           echo -e "Current aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
-          sed -i -E 's_(ntloc/web-app-fullstack-springboot-angular:)([^"]*)_\1'${IMAGE_NUMBER}'_' aws-elasticbeanstalk/docker-compose.yml
+          sed -i -E 's_(ntloc/web-app-fullstack-springboot-angular:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' aws-elasticbeanstalk/docker-compose.yml
           echo -e "Current aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add aws-elasticbeanstalk/docker-compose.yml
-          git commit -m "new app version: ${IMAGE_NUMBER}"
+          git commit -m "new app version: ${{steps.build-number.outputs.BUILD_NUMBER}}"
           git push
       - name: Deploy to Server
         working-directory: aws-elasticbeanstalk
