@@ -168,7 +168,7 @@
 								<phase>package</phase>
 								<configuration>
 									<to>
-										<image>docker.io/ntloc/${app.image.name}:${image.tag}</image>
+										<image>docker.io/ntloc/${app.image.name}:2023.03.02.23.12.34}</image>
 									</to>
 								</configuration>
 								<goals>

@@ -35,7 +35,7 @@ jobs:
         run: mvn --no-transfer-progress clean package
             -P build-frontend
             -P jib-push-image-to-dockerhub
-            -Dimage.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}
+#            -Dimage.tag=${{steps.image-number.outputs.IMAGE_NUMBER}}
 
       - name: Update and commit app version in docker-compose.yaml
         run: |
