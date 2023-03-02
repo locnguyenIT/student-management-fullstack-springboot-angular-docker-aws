@@ -49,7 +49,7 @@ jobs:
         run: |
           echo "Before update build number aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
           $content = Get-Content "aws-elasticbeanstalk/docker-compose.yml"
-          $content = $content -replace "ntloc/web-app-fullstack-springboot-angular:(.*)", "${{steps.build-number.outputs.BUILD_NUMBER}}$1"
+          $content = $content -replace "ntloc/web-app-fullstack-springboot-angular:(.*)", "ntloc/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}$1"
           Set-Content "aws-elasticbeanstalk/docker-compose.yml" $content
           echo "After update aws-elasticbeanstalk/docker-compose.yml\n$(cat aws-elasticbeanstalk/docker-compose.yml)"
           git config user.name github-actions
