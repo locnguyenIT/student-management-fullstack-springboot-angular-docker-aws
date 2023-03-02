@@ -16,7 +16,7 @@
 	<properties>
 		<java.version>15</java.version>
 		<app.image.name>web-app-fullstack-springboot-angular</app.image.name>
-		<app.image.tag/>
+		<image.tag/>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -168,7 +168,7 @@
 								<phase>package</phase>
 								<configuration>
 									<to>
-										<image>docker.io/ntloc/${app.image.name}:${app.image.tag}</image>
+										<image>docker.io/ntloc/${app.image.name}:${image.tag}</image>
 									</to>
 								</configuration>
 								<goals>
