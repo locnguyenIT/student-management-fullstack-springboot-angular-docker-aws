@@ -33,7 +33,7 @@ jobs:
 
       - name: Maven Clean Package and Push Image to Docker Hub
         run: |
-          run: echo "Datetime number: ${{ format('%Y%m%d%H%M%S', github.event.head_commit.timestamp) }}"
+          echo "Datetime number: ${{ format('%Y%m%d%H%M%S', github.event.head_commit.timestamp) }}"
           BUILD_NUMBER=${{steps.image-number.outputs.BUILD_NUMBER}}
           mvn clean package -P build-frontend -DskipTests
 
