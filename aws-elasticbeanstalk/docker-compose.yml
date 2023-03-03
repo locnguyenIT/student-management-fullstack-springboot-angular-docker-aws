@@ -6,10 +6,6 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DATASOURCE_URL: mysql
-      DATASOURCE_PORT: 3306
-      DATASOURCE_USERNAME: root
-      DATASOURCE_PASSWORD: password
     depends_on:
       mysql:
         condition: service_started
