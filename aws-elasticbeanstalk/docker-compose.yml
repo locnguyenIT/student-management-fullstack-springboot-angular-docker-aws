@@ -8,20 +8,6 @@ services:
 #      - ./aws-elasticbeanstalk/secret-dev.env
     environment:
       SPRING_PROFILES_ACTIVE: dev
-    depends_on:
-      mysql:
-        condition: service_started
     restart: "always"
-  mysql:
-    container_name: mysql
-    image: mysql:8.0
-    ports:
-      - "3307:3306"
-    volumes:
-      - data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: student
-    restart: unless-stopped
 volumes:
   data:
