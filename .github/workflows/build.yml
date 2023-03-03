@@ -27,4 +27,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Maven Clean Package
-        run: mvn clean package -P build-frontend -DskipTests
+        run: mvn clean package -DskipTests
