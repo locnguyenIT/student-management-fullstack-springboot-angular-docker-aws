@@ -36,7 +36,7 @@ public class DbConfiguration {
         return args ->  {
 
             //INSERT Faculty
-            Faculty faculty_1  = new Faculty("Information Technology") ;
+            Faculty faculty_1  = new Faculty("Information Technology ABCDE") ;
             Faculty faculty_2  = new  Faculty("Business Administration") ;
             facultyRepository.saveAll(List.of(faculty_1,faculty_2));
 

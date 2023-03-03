@@ -17,7 +17,7 @@ public class ClassroomService {
 
     @Autowired
     public ClassroomService(ClassroomRepository classroomRepository, FacultyRepository facultyRepository) {
-        this.classroomRepository = classroomRepository;
+        this.classroomRepository =     classroomRepository;
         this.facultyRepository = facultyRepository;
     }
 
