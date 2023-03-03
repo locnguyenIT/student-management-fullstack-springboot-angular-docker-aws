@@ -9,8 +9,7 @@ import { Result } from '../interface/result';
 })
 export class ResultService {
 
-  private backendURL = 'http://web-app-fullstack.ap-southeast-1.elasticbeanstalk.com/api/spring-boot'; //URL to connect to backend;
-
+  private backendURL = environment.backendURL;
   constructor(private http: HttpClient) { }
 
   public getAllResult(): Observable<Result[]> //get All Student from backend

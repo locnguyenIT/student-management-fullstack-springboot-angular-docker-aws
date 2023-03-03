@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-//   backendURL: 'http://localhost:8080/api/spring-boot' //URL to connect to backend
+  backendURL: 'http://localhost:8080/api/spring-boot' //URL to connect to backend
 };
 
 /*

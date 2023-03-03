@@ -10,8 +10,7 @@ import { Classroom } from '../interface/classroom';
 })
 export class ClassroomService {
 
-  private backendURL = 'http://web-app-fullstack.ap-southeast-1.elasticbeanstalk.com/api/spring-boot'; //URL to connect to backend;
-
+  private backendURL = environment.backendURL;
   constructor(private http:HttpClient) { }
 
   public getAllClassroom(): Observable<Classroom[]>
