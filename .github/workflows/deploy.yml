@@ -53,5 +53,4 @@ jobs:
           git push
 
       - name: Deploy to Server
-        working-directory: aws-elasticbeanstalk
-        run: docker compose up -d
+        run: docker compose -f ./aws-elasticbeanstalk/docker-compose.yml up -d
