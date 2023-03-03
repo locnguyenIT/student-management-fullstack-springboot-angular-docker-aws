@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web-app:
-    image: ntloc/web-app-fullstack-springboot-angular:2023.03.03.15.31.11
+    image: ntloc/web-app-fullstack-springboot-angular:2023.03.03.16.25.41
     ports:
       - "80:8080"
 #    env_file:
