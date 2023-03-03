@@ -4,8 +4,8 @@ services:
     image: ntloc/web-app-fullstack-springboot-angular:2023.03.03.11.39.11
     ports:
       - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
+    env_file:
+      - ./secret-dev.env
     depends_on:
       mysql:
         condition: service_started
