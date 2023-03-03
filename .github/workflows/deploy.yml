@@ -7,6 +7,13 @@ on:
   push:
     branches: [ master ]
 
+env:
+  #AWS & Elastic Beanstalk
+  AWS_REGION: ap-southeast-1
+  EB_ENVIRONMENT_NAME: Courseenrollment-env
+  EB_APPLICATION_NAME: course-enrollment
+  EB_DEPLOYMENT_PACKAGE: aws-elasticbeanstalk/docker-compose.yml
+
 jobs:
   deploy:
     runs-on: [self-hosted, Windows, X64, Fullstack_Runner]
@@ -52,5 +59,17 @@ jobs:
           git commit -m "new app version: ${{steps.build-number.outputs.BUILD_NUMBER}}"
           git push
 
-      - name: Deploy to Server
-        run: docker compose -f ./aws-elasticbeanstalk/docker-compose.yml up -d
+#      - name: Deploy to Server
+#        run: docker compose -f ./aws-elasticbeanstalk/docker-compose.yml up -d
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ env.AWS_REGION }}
+          environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
+          application_name: ${{ env.EB_APPLICATION_NAME }}
+          deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
+          version_label: ${{ steps.number.outputs.BUILD_NUMBER }}
+          version_description: Version ${{steps.build-number.outputs.BUILD_NUMBER}} deployed via github actions ${{ github.sha }}
+          wait_for_deployment: 60
