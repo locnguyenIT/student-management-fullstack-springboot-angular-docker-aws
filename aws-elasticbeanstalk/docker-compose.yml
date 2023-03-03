@@ -5,7 +5,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - ./secret-dev.env
+      - secret-dev.env
     depends_on:
       mysql:
         condition: service_started
