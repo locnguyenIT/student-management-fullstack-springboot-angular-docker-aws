@@ -41,7 +41,7 @@ public class ClassroomService {
         boolean exists = facultyRepository.existsById(facultyId);
         if(!exists)
         {
-            throw new APIEntityNotFoundException("Faculty with id "+facultyId+ " was not found");
+            throw new APIEntityNotFoundException("Faculfdsty with id "+facultyId+ " was not found");
         }
         classroom.setFaculty(facultyRepository.getById(facultyId));
         classroomRepository.save(classroom);
