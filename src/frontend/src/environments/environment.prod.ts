@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  backendURL : 'http://localhost:8080/api/spring-boot' //URL to connect to backend;
+  backendURL : 'Courseenrollment-env.eba-psdtstj7.ap-southeast-1.elasticbeanstalk.com' //URL to connect to backend;
 
 };

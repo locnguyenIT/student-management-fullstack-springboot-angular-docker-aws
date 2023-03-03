@@ -3,7 +3,7 @@ services:
   web-app:
     image: ntloc/web-app-fullstack-springboot-angular:2023.03.03.15.31.11
     ports:
-      - "8080:8080"
+      - "80:8080"
 #    env_file:
 #      - ./aws-elasticbeanstalk/secret-dev.env
     environment:
