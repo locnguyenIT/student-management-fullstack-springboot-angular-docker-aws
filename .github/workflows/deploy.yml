@@ -7,12 +7,12 @@ on:
   push:
     branches: [ master ]
 
-env:
-  #AWS & Elastic Beanstalk
-  AWS_REGION: ap-southeast-1
-  EB_ENVIRONMENT_NAME: Courseenrollment-env
-  EB_APPLICATION_NAME: course-enrollment
-  EB_DEPLOYMENT_PACKAGE: aws-elasticbeanstalk/docker-compose.yml
+# env:
+#   #AWS & Elastic Beanstalk
+#   AWS_REGION: ap-southeast-1
+#   EB_ENVIRONMENT_NAME: Courseenrollment-env
+#   EB_APPLICATION_NAME: course-enrollment
+#   EB_DEPLOYMENT_PACKAGE: aws-elasticbeanstalk/docker-compose.yml
 
 jobs:
   deploy:
@@ -27,49 +27,51 @@ jobs:
       - name: Get build number
         run: echo "The build number is ${{ steps.build-number.outputs.BUILD_NUMBER }}"
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      #     password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Maven Clean Package and Push Image to Docker Hub
+        env:
+          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
+          
         run: mvn clean package -P build-frontend -DskipTests
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}
 
-      - name: Update and commit app version in docker-compose.yaml
-        run: |
-          echo "Before update build number aws-elasticbeanstalk/docker-compose.yml"
-          cat aws-elasticbeanstalk/docker-compose.yml
-          $content = Get-Content "aws-elasticbeanstalk/docker-compose.yml"
-          $content = $content -replace "(ntloc/web-app-fullstack-springboot-angular:)([^\s]+)", "ntloc/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}"
-          Set-Content "aws-elasticbeanstalk/docker-compose.yml" $content
-          echo "After update aws-elasticbeanstalk/docker-compose.yml"
-          cat aws-elasticbeanstalk/docker-compose.yml
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add aws-elasticbeanstalk/docker-compose.yml
-          git commit -m "new app version: ${{steps.build-number.outputs.BUILD_NUMBER}}"
-          git push
-
-#      - name: Deploy to Server
-#        run: docker compose -f ./aws-elasticbeanstalk/docker-compose.yml up -d
-      - name: Deploy to AWS Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: ${{ env.AWS_REGION }}
-          environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
-          application_name: ${{ env.EB_APPLICATION_NAME }}
-          deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
-          version_label: ${{ steps.number.outputs.BUILD_NUMBER }}
-          version_description: Version ${{steps.build-number.outputs.BUILD_NUMBER}} deployed via github actions ${{ github.sha }}
-          wait_for_deployment: 60
+      # - name: Update and commit app version in docker-compose.yaml
+      #   run: |
+      #     echo "Before update build number aws-elasticbeanstalk/docker-compose.yml"
+      #     cat aws-elasticbeanstalk/docker-compose.yml
+      #     $content = Get-Content "aws-elasticbeanstalk/docker-compose.yml"
+      #     $content = $content -replace "(ntloc/web-app-fullstack-springboot-angular:)([^\s]+)", "ntloc/web-app-fullstack-springboot-angular:${{steps.build-number.outputs.BUILD_NUMBER}}"
+      #     Set-Content "aws-elasticbeanstalk/docker-compose.yml" $content
+      #     echo "After update aws-elasticbeanstalk/docker-compose.yml"
+      #     cat aws-elasticbeanstalk/docker-compose.yml
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add aws-elasticbeanstalk/docker-compose.yml
+      #     git commit -m "new app version: ${{steps.build-number.outputs.BUILD_NUMBER}}"
+      #     git push
+     - name: Deploy to Server
+       run: docker compose -f ./aws-elasticbeanstalk/docker-compose.yml --build up -d
+      # - name: Deploy to AWS Elastic Beanstalk
+      #   uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
+      #   with:
+      #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     region: ${{ env.AWS_REGION }}
+      #     environment_name: ${{ env.EB_ENVIRONMENT_NAME }}
+      #     application_name: ${{ env.EB_APPLICATION_NAME }}
+      #     deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
+      #     version_label: ${{ steps.number.outputs.BUILD_NUMBER }}
+      #     version_description: Version ${{steps.build-number.outputs.BUILD_NUMBER}} deployed via github actions ${{ github.sha }}
+      #     wait_for_deployment: 60
