@@ -35,8 +35,7 @@ jobs:
 
       - name: Maven Clean Package and Push Image to Docker Hub
         env:
-          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}
-          
+          DATASOURCE_URL: ${{ secrets.DATASOURCE_URL }}  
         run: mvn clean package -P build-frontend -DskipTests
 
       # - name: Build and push
