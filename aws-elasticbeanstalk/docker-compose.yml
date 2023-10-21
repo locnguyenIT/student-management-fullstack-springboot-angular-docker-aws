@@ -5,7 +5,8 @@ services:
     ports:
       - "8080:8080"
     build:
-      context: ./Dockerfile
+      context: .
+      dockerfile: ./Dockerfile  
 #    env_file:
 #      - ./aws-elasticbeanstalk/secret-dev.env
     environment:
